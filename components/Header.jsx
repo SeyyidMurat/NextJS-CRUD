@@ -13,6 +13,11 @@ export const Header = () => {
 							Home
 						</Anchor>
 					</Link>
+					<Link href="/examples">
+						<Anchor color="dark" size="lg" weight="500">
+							Examples
+						</Anchor>
+					</Link>
 					<Link href="/add">
 						<Anchor color="dark" size="lg" weight="500">
 							Add Item

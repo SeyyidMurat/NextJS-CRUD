@@ -1,6 +1,8 @@
-import React /* useState */ from "react";
+import React from "react";
 import { Table, Text, Group, Button } from "@mantine/core";
 import api from "../services/api";
+import { useRouter } from "next/router";
+
 const tableHead = [
 	{ id: 1, title: "Word Type" },
 	{ id: 2, title: "Word" },
@@ -10,11 +12,12 @@ const tableHead = [
 ];
 
 const WordTable = (props) => {
-	/* const [word, setWord] = useState(props.item); */
+	const router = useRouter();
+	const currentPath = router.asPath;
 
 	const deleteWord = async (id) => {
-		const { data } = await api.delete(`/${id}`);
-		/* setWord(() => word.filter((el) => el._id !== id)); */
+		const { data } = await api.delete(`/api/words/${id}`);
+		router.push(`${currentPath}`);
 		console.log(data);
 	};
 

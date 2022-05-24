@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { InputWrapper, Stack, Card, Button, Box, Textarea } from "@mantine/core";
+import api from "../services/api";
+import StatusMessage from "./StatusMessage";
 
-const AddQuestions = () => {
+const AddExamples = () => {
+	const [openNotification, setOpenNotification] = useState(false);
+	const [statusMessage, setStatusMessage] = useState("");
+
 	const [ınputValue, setInputValue] = useState({
-		wordType: "questionExamples",
-		word: "",
+		sentence: "",
 		meaning: "",
 	});
 
@@ -13,26 +17,26 @@ const AddQuestions = () => {
 		setInputValue((ınputValue) => ({ ...ınputValue, [name]: value }));
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-
-		setInputValue({ word: "", meaning: "" });
+		const { data } = await api.post("api/sentences/add", ınputValue);
+		setStatusMessage(data);
+		setInputValue({ sentence: "", meaning: "" });
 	};
 
-	console.log(ınputValue);
 	return (
 		<Box sx={{ width: "360px" }}>
 			<form onSubmit={handleSubmit}>
 				<Card shadow="lg" p="lg">
 					<Stack spacing="xl">
-						<InputWrapper id="input-question" label="Question">
+						<InputWrapper id="input-sentence" label="Example Sentence ">
 							<Textarea
-								name="word"
+								name="sentence"
 								placeholder="Question"
 								autosize
 								minRows={2}
 								required
-								value={ınputValue.word}
+								value={ınputValue.sentence}
 								onChange={handleChange}
 							/>
 						</InputWrapper>
@@ -53,8 +57,9 @@ const AddQuestions = () => {
 					</Stack>
 				</Card>
 			</form>
+			{openNotification && <StatusMessage color="green" message={statusMessage.message} />}
 		</Box>
 	);
 };
 
-export default AddQuestions;
+export default AddExamples;

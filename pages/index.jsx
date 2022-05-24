@@ -13,7 +13,7 @@ const Home = (props) => {
 export default Home;
 
 export async function getServerSideProps() {
-	const { data } = await api.get("/");
+	const { data } = await api.get("api/words");
 	return {
 		props: {
 			words: data,

@@ -11,8 +11,6 @@ const sidebarElements = [
 	{ id: 6, title: "Preposition", path: "preposition" },
 	{ id: 7, title: "Conjunction", path: "conjunction" },
 	{ id: 8, title: "Branch English", path: "branchEnglish" },
-	{ id: 9, title: "Learned Words", path: "learnedWords" },
-	{ id: 9, title: "Question Examples", path: "questionExamples" },
 ];
 
 export const Navbar = () => {

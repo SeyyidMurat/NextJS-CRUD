@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { InputWrapper, Input, NativeSelect, Stack, Card, Button, Notification, Box } from "@mantine/core";
+import { InputWrapper, Input, NativeSelect, Stack, Card, Button, Box } from "@mantine/core";
 import api from "../services/api";
+import StatusMessage from "./StatusMessage";
 const wordType = [
 	{ key: 1, value: "noun", label: "Noun" },
 	{ key: 2, value: "verb", label: "Verb" },
@@ -14,6 +15,7 @@ const wordType = [
 
 const AddWord = () => {
 	const [openNotification, setOpenNotification] = useState(false);
+	const [statusMessage, setStatusMessage] = useState("");
 
 	const [ınputValue, setInputValue] = useState({
 		wordType: "",
@@ -29,8 +31,8 @@ const AddWord = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const { data } = await api.post("/add", ınputValue);
-		console.log(data);
+		const { data } = await api.post("api/words/add", ınputValue);
+		setStatusMessage(data);
 		setInputValue({ wordType: "", word: "", meaning: "", pronunciation: "" });
 		setOpenNotification(true);
 	};
@@ -91,11 +93,7 @@ const AddWord = () => {
 					</Stack>
 				</Card>
 			</form>
-			{openNotification && (
-				<Box sx={{ position: "fixed", bottom: "50px", right: "50px" }}>
-					<Notification title="Succes Add Word" color="green" />
-				</Box>
-			)}
+			{openNotification && <StatusMessage color="green" message={statusMessage.message} />}
 		</Box>
 	);
 };

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 const Layout = ({ children }) => {
 	const router = useRouter();
 	const isNavbar =
-		router.pathname !== "/add-word" ? (
+		router.pathname !== "/examples" ? (
 			<Navbar sx={{ position: "sticky", top: "60px", width: "300px" }} p="xs">
 				<MainNavbar />
 			</Navbar>
