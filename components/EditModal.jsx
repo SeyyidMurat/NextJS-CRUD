@@ -1,21 +1,24 @@
 import { useState } from "react";
 import { InputWrapper, Input, Stack, Button, Modal } from "@mantine/core";
 import api from "../services/api";
-
+import { useRouter } from "next/router";
 const EditModal = (props) => {
+	const router = useRouter();
+	console.log(router);
 	const [ınputValues, setInputValues] = useState(props.selectWord);
 	const { _id, word, meaning, pronunciation, wordType } = ınputValues;
-	console.log(ınputValues);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setInputValues((ınputValues) => ({ ...ınputValues, [name]: value }));
 	};
 
-	const handleSubmit = async () => {
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 		const { data } = await api.put(`/api/words/update/${_id}`, { wordType, word, meaning, pronunciation });
 		console.log(data);
 		props.onClose();
+		router.push(router.asPath);
 	};
 
 	return (
