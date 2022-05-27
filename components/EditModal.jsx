@@ -4,6 +4,7 @@ import api from "../services/api";
 
 const EditModal = (props) => {
 	const [ınputValues, setInputValues] = useState(props.selectWord);
+	const { _id, word, meaning, pronunciation, wordType } = ınputValues;
 	console.log(ınputValues);
 
 	const handleChange = (e) => {
@@ -11,8 +12,8 @@ const EditModal = (props) => {
 		setInputValues((ınputValues) => ({ ...ınputValues, [name]: value }));
 	};
 
-	const handleSubmit = async (e) => {
-		const { data } = await api.put(`/api/words/${ınputValues._id}`, ınputValues);
+	const handleSubmit = async () => {
+		const { data } = await api.put(`/api/words/update/${_id}`, { wordType, word, meaning, pronunciation });
 		console.log(data);
 		props.onClose();
 	};
@@ -26,7 +27,7 @@ const EditModal = (props) => {
 							id="input-word"
 							name="word"
 							placeholder="Enter Word"
-							value={ınputValues.word}
+							value={word}
 							onChange={handleChange}
 							required
 						/>
@@ -36,7 +37,7 @@ const EditModal = (props) => {
 							id="input-meaning"
 							name="meaning"
 							placeholder="Meaning"
-							value={ınputValues.meaning}
+							value={meaning}
 							onChange={handleChange}
 							required
 						/>
@@ -46,7 +47,7 @@ const EditModal = (props) => {
 							id="input-spoken"
 							name="pronunciation"
 							placeholder="Pronunciation"
-							value={ınputValues.pronunciation}
+							value={pronunciation}
 							onChange={handleChange}
 							required
 						/>
