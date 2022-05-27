@@ -17,3 +17,16 @@ body {
 .main-container {
 	height: calc(100vh - 100px);
 }
+
+.hidden-text {
+	opacity: 0;
+	color: red;
+	font-size: 18px;
+	font-weight: bold;
+	transition: opacity 250ms ease-in-out;
+	cursor: pointer;
+}
+
+.hidden-text:hover {
+	opacity: 1;
+}

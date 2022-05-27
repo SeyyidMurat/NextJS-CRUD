@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Table, Text, Group, Button } from "@mantine/core";
-import api from "../services/api";
 import { useRouter } from "next/router";
+import EditModal from "./EditModal";
+import api from "../services/api";
 
 const tableHead = [
 	{ id: 1, title: "Word Type" },
@@ -15,24 +16,18 @@ const WordTable = (props) => {
 	const router = useRouter();
 	const currentPath = router.asPath;
 
+	const [editModal, setEditModal] = useState(false);
+	const [selectWord, setSelectWord] = useState();
+
 	const deleteWord = async (id) => {
 		const { data } = await api.delete(`/api/words/${id}`);
 		router.push(`${currentPath}`);
 		console.log(data);
 	};
-
-	const hiddenText = () => ({
-		opacity: "0",
-		color: "red",
-		fontSize: "18",
-		fontWeight: "700",
-		transition: "opacity 250ms ease-in-out",
-		cursor: "pointer",
-
-		"&:hover": {
-			opacity: 1,
-		},
-	});
+	const editWord = (item) => {
+		setEditModal(true);
+		setSelectWord(item);
+	};
 
 	return (
 		<div>
@@ -49,10 +44,10 @@ const WordTable = (props) => {
 						<tr key={item._id}>
 							<td>{item.wordType}</td>
 							<td>
-								<Text sx={hiddenText}>{item.word}</Text>
+								<Text className="hidden-text">{item.word}</Text>
 							</td>
 							<td>
-								<Text sx={hiddenText}>{`( ${item.pronunciation} )`}</Text>
+								<Text className="hidden-text">{`( ${item.pronunciation} )`}</Text>
 							</td>
 							<td>
 								<Text color="indigo" weight={700} size="lg">
@@ -75,7 +70,7 @@ const WordTable = (props) => {
 										color="gray"
 										size="xs"
 										radius="xl"
-										/* onClick={() => editWord(subitem)} */
+										onClick={() => editWord(item)}
 									>
 										Edit
 									</Button>
@@ -85,6 +80,7 @@ const WordTable = (props) => {
 					))}
 				</tbody>
 			</Table>
+			{editModal && <EditModal opened={editModal} onClose={() => setEditModal(false)} selectWord={selectWord} />}
 		</div>
 	);
 };
